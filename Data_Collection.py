@@ -2,12 +2,12 @@ from selenium import webdriver
 from selenium.webdriver.common.by import By
 import time
 import datetime
+from config import config
 
 # set up the Edge driver
 driver = webdriver.Edge()
 
-# set the station ID and date range
-station_id = 'C0F9T0'
+# set the date range
 start_date = datetime.date(2011, 11, 1)
 end_date = datetime.date(2012, 1, 5)
 
@@ -18,7 +18,7 @@ while current_date <= end_date:
     date_str = current_date.strftime('%Y-%m-%d')
     url = f'https://e-service.cwb.gov.tw/HistoryDataQuery/DayDataController.do?' \
           f'command=viewMain&' \
-          f'station={station_id}&' \
+          f'station={config["station_id"]}&' \
           f'stname=%25E8%25A5%25BF%25E5%25B1%25AF&' \
           f'datepicker={date_str}&' \
           f'altitude=111m'
