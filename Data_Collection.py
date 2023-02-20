@@ -4,12 +4,21 @@ import time
 import datetime
 from config import config
 
+# set the default download directory for Edge
+options = webdriver.EdgeOptions()
+# replace with your preferred download directory
+prefs = {"download.default_directory": r"C:\Users\itung\OneDrive\桌面\Weather_Forecasting\Weather Raw Data"}
+options.add_experimental_option("prefs", prefs)
+
 # set up the Edge driver
-driver = webdriver.Edge()
+driver = webdriver.Edge(options=options)
 
 # set the date range
 start_date = datetime.date(2011, 11, 1)
-end_date = datetime.date(2012, 1, 5)
+end_date = datetime.date(2011, 12, 1)
+
+# start the timer
+start_time = time.monotonic()
 
 # loop over the date range and download the CSV file for each date
 current_date = start_date
@@ -30,6 +39,14 @@ while current_date <= end_date:
 
     # move to the next date
     current_date += datetime.timedelta(days=1)
+
+# end the timer and calculate the elapsed time
+end_time = time.monotonic()
+elapsed_time = end_time - start_time
+
+# print the elapsed time
+print(f"Takes {elapsed_time:.2f} seconds to download all the files.")
 time.sleep(5)
+
 # close the browser
 driver.quit()
