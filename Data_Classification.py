@@ -25,31 +25,13 @@ for file in all_files:
     if config['remove_files']:
         os.remove(file)
 
-# group dataframes by month and concatenate into separate dataframes
-month_dfs = {}
-for df in dfs:
-    year = df['Year'].iloc[0]
-    month = df['Month'].iloc[0]
-    month_key = f"{year}-{month}"
-    if month_key not in month_dfs:
-        month_dfs[month_key] = [df]
-    else:
-        month_dfs[month_key].append(df)
+# concatenate all dataframes into a single dataframe
+combined_df = pd.concat(dfs)
 
-# concatenate dataframes within each month into a single dataframe
-for month_key, month_df_list in month_dfs.items():
-    month_df = pd.concat(month_df_list)
-    year_col = month_df.pop('Year')  # remove the Year column
-    month_col = month_df.pop('Month')  # remove the Month column
-    day_col = month_df.pop('Day')  # remove the Day column
-    month_df.insert(0, 'Year', year_col)  # insert the Year column at the front
-    month_df.insert(1, 'Month', month_col)
-    month_df.insert(2, 'Day', day_col)  # insert the Day column at the third position
+# remove all the empty columns
+for col in col_to_remove:
+    combined_df.pop(col)
 
-    # remove all the empty columns
-    for col in col_to_remove:
-        month_df.pop(col)
-
-    # write the dataframe to a new CSV file
-    filename = f"{year_col.iloc[0]}-{month_col.iloc[0]}-combined.csv"
-    month_df.to_csv(os.path.join(path, filename), index=False)
+# write the dataframe to a new CSV file
+filename = "C0F9T0-combined.csv"
+combined_df.to_csv(os.path.join(path, filename), index=False)
