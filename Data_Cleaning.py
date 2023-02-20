@@ -5,7 +5,7 @@ from config import config
 
 
 def clean_col_data(data, col_name, method):
-    switcher = {
+    cleaning_method = {
         'bfill': data[col_name].fillna(method='bfill'),
         'ffill': data[col_name].fillna(method='ffill'),
         'mean': data[col_name].fillna(data[col_name].mean()),
@@ -13,15 +13,16 @@ def clean_col_data(data, col_name, method):
         '0': data[col_name].fillna(0),
         'delete': data.dropna(subset=[col_name])
     }
-    if method not in switcher.keys():
+    if method not in cleaning_method.keys():
         print("The method from the config is wrong, using 'bfill' as default.")
         method = 'bfill'
 
     if method == 'delete':
-        data = switcher[method]
+        data = cleaning_method[method]
     else:
-        data[col_name] = switcher[method]
+        data[col_name] = cleaning_method[method]
     return data
+
 
 all_files = glob.glob(os.path.join(config['path'], f"{config['station_id']}-combined.csv"))
 

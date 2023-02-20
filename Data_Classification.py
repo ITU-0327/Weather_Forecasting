@@ -29,6 +29,6 @@ combined_df = pd.concat(dfs)
 for col in col_to_remove:
     combined_df.pop(col)
 
-# write the dataframe to a new CSV file
+# save the dataframe to a new CSV file
 filename = f"{config['station_id']}-combined.csv"
 combined_df.to_csv(os.path.join(config['path'], filename), index=False)
