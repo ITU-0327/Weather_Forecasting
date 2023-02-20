@@ -3,13 +3,10 @@ import glob
 import pandas as pd
 from config import config
 
-download_path = r"C:\Users\itung\Downloads"
-path = r"C:\Users\itung\OneDrive\桌面\Data Science Midterm\Weather Data"  # path to directory containing the files
-
 col_to_remove = ["SeaPres", "Td dew point", "WSGust", "WDGust", "PrecpHour", "SunShine", "GloblRad", "Visb", "UVI",
                  "Cloud Amount"]
 
-all_files = glob.glob(os.path.join(download_path, f"{config['station_id']}*.csv"))  # list of all CSV files in directory
+all_files = glob.glob(os.path.join(config['download_path'], f"{config['station_id']}-2011-12*.csv"))  # list of all CSV files in directory
 
 dfs = []  # list to store individual dataframes
 for file in all_files:
@@ -34,4 +31,4 @@ for col in col_to_remove:
 
 # write the dataframe to a new CSV file
 filename = f"{config['station_id']}-combined.csv"
-combined_df.to_csv(os.path.join(path, filename), index=False)
+combined_df.to_csv(os.path.join(config['path'], filename), index=False)

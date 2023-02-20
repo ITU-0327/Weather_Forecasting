@@ -7,15 +7,16 @@ from config import config
 # set the default download directory for Edge
 options = webdriver.EdgeOptions()
 # replace with your preferred download directory
-prefs = {"download.default_directory": r"C:\Users\itung\OneDrive\桌面\Weather_Forecasting\Weather Raw Data"}
+prefs = {"download.default_directory": config['download_path']}
 options.add_experimental_option("prefs", prefs)
 
 # set up the Edge driver
 driver = webdriver.Edge(options=options)
 
 # set the date range
-start_date = datetime.date(2011, 11, 1)
-end_date = datetime.date(2011, 12, 1)
+# the data from the CWB starts from 2011/11/1
+start_date = datetime.date(2023, 2, 19)
+end_date = datetime.date.today()
 
 # start the timer
 start_time = time.monotonic()
