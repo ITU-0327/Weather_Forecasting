@@ -1,5 +1,4 @@
 import os
-import glob
 import pandas as pd
 from config import config
 
@@ -24,12 +23,9 @@ def clean_col_data(data, col_name, method):
     return data
 
 
-all_files = glob.glob(os.path.join(config['path'], f"{config['station_id']}-combined.csv"))
+df = pd.read_csv(os.path.join(config['path'], f'{config["station_id"]}-combined.csv'))
+df = df.apply(pd.to_numeric, errors='coerce')
 
-for file in all_files:
-    df = pd.read_csv(file)
-    df = df.apply(pd.to_numeric, errors='coerce')
+df = clean_col_data(df, 'Precp', config['method'])
 
-    df = clean_col_data(df, 'Precp', config['method'])
-
-    df.to_csv(config['path'] + r'\test_file.csv', index=False)
+df.to_csv(os.path.join(config['path'], 'test_file.csv'), index=False)
