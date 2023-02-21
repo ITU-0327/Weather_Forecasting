@@ -6,7 +6,8 @@ from config import config
 col_to_remove = ["SeaPres", "Td dew point", "WSGust", "WDGust", "PrecpHour", "SunShine", "GloblRad", "Visb", "UVI",
                  "Cloud Amount"]
 
-all_files = glob.glob(os.path.join(config['download_path'], f"{config['station_id']}-2011-12*.csv"))  # list of all CSV files in directory
+# list of all CSV files in directory
+all_files = glob.glob(os.path.join(config['download_path'], f"{config['station_id']}*.csv"))
 
 dfs = []  # list to store individual dataframes
 for file in all_files:
