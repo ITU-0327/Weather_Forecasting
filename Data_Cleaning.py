@@ -4,16 +4,17 @@ from config import config
 import calendar
 
 
-def clean_col_data(data, col_name, method):
+def clean_col_data(data, col_name):
     cleaning_method = {
         'bfill': data[col_name].fillna(method='bfill'),
         'ffill': data[col_name].fillna(method='ffill'),
         'mean': data[col_name].fillna(data[col_name].mean()),
         'avg': data[col_name].fillna((data[col_name].ffill() + data[col_name].bfill()) / 2),
-        'day_mean': data.groupby(['Year', 'Month', 'Day'])[col_name].transform(lambda x: x.fillna(round(x.mean(), 2))),
+        'day_mean': data.groupby(['Year', 'Month', 'Day'])[col_name].transform(lambda x: x.fillna(round(x.mean(), 1))),
         '0': data[col_name].fillna(0),
         'delete': data.dropna(subset=[col_name])
     }
+    method = config['method'][col_name]
     if method not in cleaning_method.keys():
         print("The method from the config is wrong, using 'bfill' as default.")
         method = 'bfill'
@@ -48,7 +49,7 @@ df = pd.read_csv(os.path.join(config['path'], f'{config["station_id"]}-combined.
 df = df.apply(convert_time, axis=1)
 df = df.apply(pd.to_numeric, errors='coerce')
 
-df = clean_col_data(df, 'Temperature', config['method'])
-df = clean_col_data(df, 'Precp', config['day_mean'])
+df = clean_col_data(df, 'Temperature')
+df = clean_col_data(df, 'Precp')
 
 df.to_csv(os.path.join(config['path'], 'test_file.csv'), index=False)
