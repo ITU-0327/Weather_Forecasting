@@ -11,6 +11,7 @@ def clean_col_data(data, col_name):
         'mean': data[col_name].fillna(data[col_name].mean()),
         'avg': data[col_name].fillna((data[col_name].ffill() + data[col_name].bfill()) / 2),
         'day_mean': data.groupby(['Year', 'Month', 'Day'])[col_name].transform(lambda x: x.fillna(round(x.mean(), 1))),
+        'month_mean': data.groupby(['Year', 'Month'])[col_name].transform(lambda x: x.fillna(round(x.mean(), 1))),
         '0': data[col_name].fillna(0),
         'delete': data.dropna(subset=[col_name])
     }
@@ -23,6 +24,12 @@ def clean_col_data(data, col_name):
         data = cleaning_method[method]
     else:
         data[col_name] = cleaning_method[method]
+
+    # if the method is day_mean, fill the rest with the mean value of the month
+    # this will be use when the whole day is empty
+    if method == 'day_mean':
+        data[col_name] = cleaning_method['month_mean']
+
     return data
 
 
@@ -51,5 +58,6 @@ df = df.apply(pd.to_numeric, errors='coerce')
 
 df = clean_col_data(df, 'Temperature')
 df = clean_col_data(df, 'Precp')
+df = clean_col_data(df, 'RH')
 
 df.to_csv(os.path.join(config['path'], 'test_file.csv'), index=False)
