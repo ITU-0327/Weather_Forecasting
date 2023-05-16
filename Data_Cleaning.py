@@ -25,8 +25,6 @@ def clean_col_data(data, col_name):
     else:
         data[col_name] = cleaning_method[method]
 
-    # if the method is day_mean, fill the rest with the mean value of the month
-    # this will be use when the whole day is empty
     if method == 'day_mean':
         data[col_name] = cleaning_method['month_mean']
 

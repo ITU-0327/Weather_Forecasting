@@ -6,7 +6,7 @@ config = {
         "RH": 'day_mean',
     },
     "station_id": 'C0F9T0',
-    "download_path": r"C:\Users\itung\OneDrive\桌面\Weather_Forecasting\Weather Raw Data",
-    "path": r"C:\Users\itung\OneDrive\桌面\Weather_Forecasting\Weather Data",
+    "download_path": r"C:\Users\itung\OneDrive\桌面\SideProject\Weather_Forecasting\Weather Raw Data",
+    "path": r"C:\Users\itung\OneDrive\桌面\SideProject\Weather_Forecasting\Weather Data",
     "years_of_lag": 3
 }
